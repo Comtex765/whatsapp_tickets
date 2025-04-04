@@ -1,7 +1,8 @@
 from os import getenv
 
 from fastapi import APIRouter, HTTPException, Request
-from services.whatsapp_service import enviar_mensajes_whatsapp
+
+from app.services.registro import enviar_mensajes_whatsapp
 
 META_HUB_TOKEN = getenv("META_HUB_TOKEN")
 

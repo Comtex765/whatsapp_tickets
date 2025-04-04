@@ -2,7 +2,10 @@ from os import getenv
 
 import uvicorn
 from fastapi import FastAPI, Request
-from services.whatsapp_service import gestion_estado_usuario
+from fastapi.responses import PlainTextResponse
+from services.registro import gestion_registro
+from services.reserva import gestion_reserva
+from utils.session import sesiones_usuarios
 
 app = FastAPI()
 
@@ -12,14 +15,19 @@ PORT = int(getenv("PORT"))
 
 
 @app.get("/webhook")
-def verify(request: Request):
-    token = request.args.get("hub.verify_token")
-    challenge = request.args.get("hub.challenge")
+async def verify_webhook(request: Request):
+    # Obtener parámetros de la query
+    params = request.query_params
+    mode = params.get("hub.mode")
+    token = params.get("hub.verify_token")
+    challenge = params.get("hub.challenge")
 
-    if challenge and token == META_HUB_TOKEN:
-        return challenge
-    else:
-        return {"error": "Token Inválido"}, 401
+    # Verificar suscripción
+    if mode == "subscribe" and token == META_HUB_TOKEN and challenge:
+        return PlainTextResponse(content=challenge)
+
+    # Respuesta en caso de fallo
+    return PlainTextResponse(content="Token Inválido", status_code=401)
 
 
 @app.post("/webhook")
@@ -34,7 +42,24 @@ async def recibir_mensajes(request: Request):
             text = mensaje.get("text", {}).get("body", "")
             print(f"\n\nMensaje de {numero}: {text}\n\n")
 
-            gestion_estado_usuario(text, numero)
+            # Verificar si el usuario ya tiene una sesión
+            if numero not in sesiones_usuarios:
+                sesiones_usuarios[numero] = {
+                    "fase": "registro",  # Sino se empieza por el registro
+                    "estado": "inicio",
+                    "datos": {},
+                }
+
+            fase_actual = sesiones_usuarios[numero]["fase"]
+
+            # Lógica por fase
+            if fase_actual == "registro":
+                gestion_registro(text, numero, sesiones_usuarios)
+            elif fase_actual == "reserva":
+                gestion_reserva(text, numero, sesiones_usuarios)
+            elif fase_actual == "pago":
+                # gestion_pago(text, numero)
+                pass
 
         return {"message": "EVENT_RECEIVED"}
     except Exception:

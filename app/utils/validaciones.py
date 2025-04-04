@@ -1,5 +1,5 @@
-from datetime import datetime
 import re
+from datetime import datetime
 
 
 def validar_cedula(cedula: str) -> bool:

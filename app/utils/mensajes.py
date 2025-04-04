@@ -1,10 +1,6 @@
-# mensajes.py
-
 BIENVENIDA = "👋 ¡Hola, bienvenido a RIOSOFT369! 🎟️\nPara comenzar con tu compra de boletos, por favor digita tu número de cédula:"
 
-CEDULA_OK = (
-    "✅ Cédula recibida. \nAhora, ingresa tu *Nombre* y *Apellido* (Ejemplo: Juan Pérez):"
-)
+CEDULA_OK = "✅ Cédula recibida. \nAhora, ingresa tu *Nombre* y *Apellido* (Ejemplo: Juan Pérez):"
 CEDULA_ERROR = "❌ Cédula *no válida*. Asegúrate de ingresar 10 dígitos numéricos."
 CEDULA_NO_VALIDA = "❌ Cédula *no válida*. Revisa tu número de cédula"
 
@@ -22,6 +18,17 @@ DIRECCION_SOLICITUD = (
     "🏠 Ahora, ingresa tu *dirección* (Ejemplo: Guayaquil y Pichincha, Riobamba)."
 )
 
+TICKETS_SOLICITUD = (
+    "🎟️ ¿Cuántos *tickets* te gustaría comprar?\nCada ticket cuesta *$2*.\n"
+    "Por favor, ingresa el número de tickets que deseas adquirir."
+)
+
+TICKETS_CANTIDAD_ERROR = "❌ Por favor, ingresa un número válido de tickets (mínimo 1)."
+
+
+def mensaje_confirmacion_tickets(cantidad: int, total: float):
+    return f"✅ Has seleccionado {cantidad} ticket(s).\n 💵 Total a pagar: ${total}\n\nEs correcto?"
+
 
 def mensaje_registro_completado(user):
-    return f"🎉 ¡Registro completado, {user["nombre"]} {user["apellido"]}! 🎟️\n\nTu compra está en proceso. 🚀"
+    return f"🎉 ¡Registro completado, {user["nombre"]} {user["apellido"]}! 🎟️\nAhora comencemos con tu compra. 🚀"
