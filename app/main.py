@@ -1,31 +1,29 @@
-from fastapi import FastAPI, Request, HTTPException
-import uvicorn
 from os import getenv
-from services.whatsapp_service import enviar_mensajes_whatsapp
+
+import uvicorn
+from fastapi import FastAPI, Request
+from services.whatsapp_service import gestion_estado_usuario
 
 app = FastAPI()
 
+
 META_HUB_TOKEN = getenv("META_HUB_TOKEN")
-PORT = int(getenv("PORT", 8000))
+PORT = int(getenv("PORT"))
 
 
 @app.get("/webhook")
-async def verificar_token(request: Request):
-    params = request.query_params
-    token = params.get("hub.verify_token")
-    challenge = params.get("hub.challenge")
+def verify(request: Request):
+    token = request.args.get("hub.verify_token")
+    challenge = request.args.get("hub.challenge")
 
     if challenge and token == META_HUB_TOKEN:
-        return int(challenge)  # challenge debe ser int o str.
-
-    raise HTTPException(status_code=401, detail="Token Inválido")
+        return challenge
+    else:
+        return {"error": "Token Inválido"}, 401
 
 
 @app.post("/webhook")
 async def recibir_mensajes(request: Request):
-
-    print("\n\nMensaje recibido en el webhook\n\n")
-
     try:
         body = await request.json()
         messages = body["entry"][0]["changes"][0]["value"].get("messages", [])
@@ -34,12 +32,13 @@ async def recibir_mensajes(request: Request):
             mensaje = messages[0]
             numero = mensaje["from"]
             text = mensaje.get("text", {}).get("body", "")
+            print(f"\n\nMensaje de {numero}: {text}\n\n")
 
-            enviar_mensajes_whatsapp(text, numero)
+            gestion_estado_usuario(text, numero)
 
         return {"message": "EVENT_RECEIVED"}
     except Exception:
-        raise HTTPException(status_code=400, detail="ERROR")
+        return {"message": "EVENT_RECEIVED"}
 
 
 if __name__ == "__main__":

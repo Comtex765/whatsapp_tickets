@@ -1,6 +1,7 @@
 import json
-from models import Log
+
 from database import db
+from models import Log
 
 
 def agregar_mensajes_log(texto):
