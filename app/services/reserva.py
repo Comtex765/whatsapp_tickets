@@ -1,6 +1,7 @@
 import utils.whatsapp.responses as wpp_resp
 from utils import mensajes
 from utils.whatsapp.sender import enviar_mensaje_whatsapp
+from utils import estados as est
 
 
 def gestion_reserva(texto, numero, sesiones_usuarios):
@@ -11,7 +12,7 @@ def gestion_reserva(texto, numero, sesiones_usuarios):
     estado_actual = sesiones_usuarios[numero]["estado"]
 
     try:
-        if estado_actual == "esperando_num_tickets":
+        if estado_actual == est.ESPERANDO_NUM_TICKETS:
             if texto.isdigit() and int(texto) > 0:
                 cantidad = int(texto)
                 total = cantidad * 2  # cada ticket cuesta $2
@@ -21,11 +22,11 @@ def gestion_reserva(texto, numero, sesiones_usuarios):
                 sesiones_usuarios[numero]["datos"]["total_pago"] = total
 
                 # Actualizar estado para confirmar pago
-                sesiones_usuarios[numero]["estado"] = "confirmar_pago"
+                sesiones_usuarios[numero]["estado"] = est.CONFIRMAR_PAGO
 
                 mensaje = mensajes.mensaje_confirmacion_tickets(cantidad, total)
-                response_data = wpp_resp.mensaje_botones_confirmar_num_tickets(
-                    numero, mensaje
+                response_data = wpp_resp.mensaje_botones_confirmacion(
+                    numero, mensaje, "num_tickets_si", "num_tickets_no"
                 )
 
                 enviar_mensaje_whatsapp(response_data)
@@ -35,10 +36,10 @@ def gestion_reserva(texto, numero, sesiones_usuarios):
                 mensaje = mensajes.TICKETS_CANTIDAD_ERROR
                 response_data = wpp_resp.mensaje_texto(numero, mensaje)
 
-        elif estado_actual == "confirmar_pago":
+        elif estado_actual == est.CONFIRMAR_PAGO:
             if texto in ["sí", "si"]:
-                sesiones_usuarios[numero]["fase"] = "pago"
-                sesiones_usuarios[numero]["estado"] = "esperando_pago"
+                sesiones_usuarios[numero]["fase"] = est.PAGO
+                sesiones_usuarios[numero]["estado"] = est.ESPERANDO_PAGO
                 response_data["text"] = {
                     "body": "💳 Perfecto. A continuación te enviaremos las opciones de pago."
                 }

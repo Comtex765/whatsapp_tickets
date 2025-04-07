@@ -28,8 +28,8 @@ def enviar_mensaje_whatsapp(response_data):
 
         # Se obtiene la respuesta del servidor
         response = connection.getresponse()
-        print("Código de respuesta:", response.status)
-        print("Respuesta:", response.read().decode())
+        print("\nCódigo de respuesta:", response.status)
+        print("Respuesta:", response.read().decode(), "\n")
 
     except Exception as e:
         # Se captura cualquier error en la conexión o solicitud

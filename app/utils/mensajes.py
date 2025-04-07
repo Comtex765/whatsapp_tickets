@@ -14,6 +14,10 @@ FECHA_NACIMIENTO_SOLICITUD = "📅 Por favor, ingresa tu *fecha de nacimiento* e
 FECHA_NACIMIENTO_ERROR = (
     "❌ Fecha no válida. Asegúrate de usar el formato *DD/MM/AAAA*."
 )
+CORREO_SOLICITUD = "📧 Por favor, ingresa tu correo electrónico."
+CORREO_ERROR = "❌ El correo ingresado no es válido. Intenta nuevamente."
+
+
 DIRECCION_SOLICITUD = (
     "🏠 Ahora, ingresa tu *dirección* (Ejemplo: Guayaquil y Pichincha, Riobamba)."
 )
@@ -32,3 +36,15 @@ def mensaje_confirmacion_tickets(cantidad: int, total: float):
 
 def mensaje_registro_completado(user):
     return f"🎉 ¡Registro completado, {user["nombre"]} {user["apellido"]}! 🎟️\nAhora comencemos con tu compra. 🚀"
+
+
+def edicion_datos_registro(datos):
+    return (
+        f"📝 *Por favor confirma tus datos:*\n\n"
+        f"👤 *\tNombre:* {datos.get('nombre')} {datos.get('apellido')}\n"
+        f"🪪 *\tCédula:* {datos.get('cedula')}\n"
+        f"📅 *\tFecha de nacimiento:* {datos.get('fecha_nacimiento')}\n"
+        f"📧 *\tCorreo:* {datos.get('correo')}\n"
+        f"🏠 *\tDirección:* {datos.get('direccion')}\n\n"
+        f"¿Están correctos estos datos?"
+    )

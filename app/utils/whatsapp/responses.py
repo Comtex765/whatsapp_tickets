@@ -8,7 +8,14 @@ def mensaje_texto(numero: str, body: str) -> dict:
     }
 
 
-def mensaje_botones_confirmar_num_tickets(numero: str, body: str) -> dict:
+def mensaje_botones_confirmacion(
+    numero: str,
+    body: str,
+    id_si: str = "confirmar_si",
+    id_no: str = "confirmar_no",
+    titulo_si: str = "Sí, continuar",
+    titulo_no: str = "No, corregir",
+) -> dict:
     return {
         "messaging_product": "whatsapp",
         "recipient_type": "individual",
@@ -22,15 +29,15 @@ def mensaje_botones_confirmar_num_tickets(numero: str, body: str) -> dict:
                     {
                         "type": "reply",
                         "reply": {
-                            "id": "cantidad_tickets_si",
-                            "title": "Sí, proceder al pago",
+                            "id": id_si,
+                            "title": titulo_si,
                         },
                     },
                     {
                         "type": "reply",
                         "reply": {
-                            "id": "cantidad_tickets_no",
-                            "title": "No, corregir tickets",
+                            "id": id_no,
+                            "title": titulo_no,
                         },
                     },
                 ]

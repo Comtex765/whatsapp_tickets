@@ -50,3 +50,8 @@ def validar_fecha_nacimiento(fecha: str) -> bool:
         return edad >= 18
     except ValueError:
         return False
+
+
+def validar_correo(correo: str) -> bool:
+    patron = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+    return re.match(patron, correo) is not None
