@@ -1,11 +1,14 @@
 from os import getenv
 
 import uvicorn
+from colorama import Fore, Style, init
 from fastapi import FastAPI, Request
 from fastapi.responses import PlainTextResponse
 from services.registro import gestion_registro
 from services.reserva import gestion_reserva
 from utils.session import sesiones_usuarios
+
+init(autoreset=True)  # Esto hace que después de cada print, se reinicie el color
 
 app = FastAPI()
 
@@ -33,14 +36,33 @@ async def verify_webhook(request: Request):
 @app.post("/webhook")
 async def recibir_mensajes(request: Request):
     try:
-        body = await request.json()
-        messages = body["entry"][0]["changes"][0]["value"].get("messages", [])
+        req = await request.json()
+        entry = req["entry"][0]
+        changes = entry["changes"][0]
+        value = changes["value"]
+        objeto_mensaje = value["messages"]
 
-        if messages:
-            mensaje = messages[0]
+        if objeto_mensaje:
+            mensaje = objeto_mensaje[0]
             numero = mensaje["from"]
-            text = mensaje.get("text", {}).get("body", "")
-            print(f"\n\nMensaje de {numero}: {text}\n\n")
+
+            if "type" in mensaje:
+                tipo = mensaje["type"]
+
+                if tipo == "interactive":
+                    tipo_interactivo = mensaje["interactive"]["type"]
+                    if tipo_interactivo == "button_reply":
+                        text = mensaje["interactive"]["button_reply"]["id"]
+
+                    elif tipo_interactivo == "list_reply":
+                        text = mensaje["interactive"]["list_reply"]["id"]
+
+                if "text" in mensaje:
+                    text = mensaje["text"]["body"]
+
+            print(Fore.BLUE + "MENSAJE RECIBIDO")
+            print(Fore.GREEN + "📱 Número  :\t" + Fore.WHITE + f"+{numero}")
+            print(Fore.GREEN + "💬 Mensaje :\t" + Fore.WHITE + f"{text}\n")
 
             # Verificar si el usuario ya tiene una sesión
             if numero not in sesiones_usuarios:

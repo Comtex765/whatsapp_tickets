@@ -2,6 +2,11 @@ import http.client
 import json
 from os import getenv
 
+from colorama import Fore, Style, init
+
+init(autoreset=True)  # Esto hace que después de cada print, se reinicie el color
+
+
 # Variables de entorno
 WHATSAPP_CLOUD_TOKEN = getenv("WHATSAPP_CLOUD_TOKEN")
 NUMBER_ID = getenv("NUMBER_ID")
@@ -28,12 +33,17 @@ def enviar_mensaje_whatsapp(response_data):
 
         # Se obtiene la respuesta del servidor
         response = connection.getresponse()
-        print("\nCódigo de respuesta:", response.status)
-        print("Respuesta:", response.read().decode(), "\n")
+        print(
+            Fore.GREEN + "\nCODIGO ENVIO MENSAJE:\t" + Fore.WHITE + f"{response.status}"
+        )
+        print(
+            Fore.GREEN + "RESPUESTA:\t" + Fore.WHITE + response.read().decode(),
+            "\n",
+        )
 
     except Exception as e:
         # Se captura cualquier error en la conexión o solicitud
-        print("Error >>", e)
+        print(Fore.RED + f"ERORR CONEXION ENVIO MENSAJE:\t" + Fore.WHITE + f"{e}\n")
 
     finally:
         # Se cierra la conexión para liberar recursos

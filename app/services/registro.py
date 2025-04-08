@@ -1,8 +1,11 @@
 import utils.whatsapp.responses as wpp_resp
+from colorama import Fore, Style, init
+from utils import estados as est
 from utils import mensajes
 from utils import validaciones as check
 from utils.whatsapp.sender import enviar_mensaje_whatsapp
-from utils import estados as est
+
+init(autoreset=True)  # Esto hace que después de cada print, se reinicie el color
 
 
 def gestion_registro(texto, numero, sesiones_usuarios):
@@ -85,7 +88,12 @@ def gestion_registro(texto, numero, sesiones_usuarios):
             sesiones_usuarios[numero]["fase"] = est.RESERVA
             sesiones_usuarios[numero]["estado"] = est.ESPERANDO_NUM_TICKETS
 
-            print(f"El user creado es \n{sesiones_usuarios[numero]}\n")
+            print(
+                Fore.YELLOW
+                + "INFO:\t"
+                + Fore.WHITE
+                + f"El user creado es \n{sesiones_usuarios[numero]}\n"
+            )
 
             # Enviar mensaje de confirmación
             mensaje = mensajes.mensaje_registro_completado(
@@ -99,7 +107,7 @@ def gestion_registro(texto, numero, sesiones_usuarios):
             mensaje = mensajes.TICKETS_SOLICITUD
 
     except Exception as e:
-        print(f"Error en gestion_registro: {e}")
+        print(Fore.RED + "ERROR GESTION REGISTRO:\t" + Fore.WHITE + f"{e}")
         # Si ocurre algún error inesperado, se envía un mensaje genérico
         mensaje = mensajes.ERROR_GENERICO
 
