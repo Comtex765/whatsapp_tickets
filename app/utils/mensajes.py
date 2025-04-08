@@ -35,7 +35,7 @@ def mensaje_confirmacion_tickets(cantidad: int, total: float):
 
 
 def mensaje_registro_completado(user):
-    return f"🎉 ¡Registro completado, {user["nombre"]} {user["apellido"]}! 🎟️\nAhora comencemos con tu compra. 🚀"
+    return f"🎉 ¡Registro completado, {user['nombre']} {user['apellido']}! 🎟️\nAhora comencemos con tu compra. 🚀"
 
 
 def edicion_datos_registro(datos):
