@@ -1,5 +1,6 @@
 from os import getenv
 
+import config
 import utils.constantes.estados as est
 import uvicorn
 from colorama import Fore, init
@@ -11,13 +12,23 @@ from services.pago import gestion_pago
 from utils.session import sesiones_usuarios
 from utils.validaciones import validar_usuario_existe
 
+
 init(autoreset=True)  # Esto hace que después de cada print, se reinicie el color
 
-app = FastAPI()
+app = FastAPI(
+    title=config.API_TITLE,
+    version=config.API_VERSION,
+    docs_url=config.DOCS_URL,
+    redoc_url=config.REDOC_URL,
+    openapi_url=config.OPENAPI_URL,
+)
 
-
-META_HUB_TOKEN = getenv("META_HUB_TOKEN")
-PORT = int(getenv("PORT"))
+# Mapeo de fases a funciones
+FASE_HANDLER = {
+    est.FASE_REGISTRO: gestion_registro,
+    est.FASE_RESERVA: gestion_reserva,
+    est.FASE_PAGO: gestion_pago,
+}
 
 
 @app.get("/webhook")
@@ -29,7 +40,7 @@ async def verify_webhook(request: Request):
     challenge = params.get("hub.challenge")
 
     # Verificar suscripción
-    if mode == "subscribe" and token == META_HUB_TOKEN and challenge:
+    if mode == "subscribe" and token == config.META_HUB_TOKEN and challenge:
         return PlainTextResponse(content=challenge)
 
     # Respuesta en caso de fallo
@@ -70,33 +81,34 @@ async def recibir_mensajes(request: Request):
 
             # Si no existe una sesión activa para el número, se crea
             if numero_telefono not in sesiones_usuarios:
+
                 # Consultamos si el usuario ya existe en la BD
                 user_db = validar_usuario_existe(numero_telefono)
 
-                # Si existe en la BD, saltamos a la fase de reserva
-                fase_inicial = est.FASE_RESERVA if user_db else est.FASE_REGISTRO
-                estado_inicial = est.INICIO_RESERVA if user_db else est.INICIO_REGISTRO
+                # Determinamos fase y estado según existencia
+                usuario_existe = bool(user_db)
+                fase_inicial = est.FASE_RESERVA if usuario_existe else est.FASE_REGISTRO
+                estado_inicial = (
+                    est.INICIO_RESERVA if usuario_existe else est.INICIO_REGISTRO
+                )
 
                 # Guardamos la sesión del usuario
                 sesiones_usuarios[numero_telefono] = {
-                    "existe": user_db,
+                    "existe": usuario_existe,
                     "fase": fase_inicial,
                     "estado": estado_inicial,
-                    "datos": {},
+                    "datos": user_db or {},
                 }
 
             # Extraemos la fase y usuario desde la sesión
             fase_actual = sesiones_usuarios[numero_telefono]["fase"]
             user_db = sesiones_usuarios[numero_telefono]["existe"]
 
-            # Procesamos según la fase
-            if fase_actual == est.FASE_REGISTRO:
-                gestion_registro(texto_mensaje, numero_telefono, sesiones_usuarios)
-            elif fase_actual == est.FASE_RESERVA:
-                gestion_reserva(texto_mensaje, numero_telefono, sesiones_usuarios)
-            elif fase_actual == est.FASE_PAGO:
-                gestion_pago(texto_mensaje, numero_telefono, sesiones_usuarios)
-                pass
+            # Ejecutar función correspondiente a la fase
+            handler = FASE_HANDLER.get(fase_actual)
+
+            if handler:
+                handler(texto_mensaje, numero_telefono, sesiones_usuarios)
 
         return {"message": "EVENT_RECEIVED"}
     except Exception:
@@ -104,4 +116,4 @@ async def recibir_mensajes(request: Request):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=PORT, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=config.PORT, reload=True)

@@ -19,7 +19,9 @@ def gestion_reserva(texto, numero_telefono, sesiones_usuarios):
     try:
         if estado_actual == est.INICIO_RESERVA:
             sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_NUM_TICKETS
-            mensaje = msg.TICKETS_SOLICITUD
+            mensaje = msg.mensaje_tickets_solicitud(
+                sesiones_usuarios[numero_telefono]["datos"]["nombre"]
+            )
 
         elif estado_actual == est.ESPERANDO_NUM_TICKETS:
             if texto.isdigit() and int(texto) > 0:
@@ -49,7 +51,9 @@ def gestion_reserva(texto, numero_telefono, sesiones_usuarios):
                 response_data = wpp_resp.mensaje_texto(numero_telefono, mensaje)
 
                 enviar_mensaje_whatsapp(response_data)
-                mensaje = msg.TICKETS_SOLICITUD
+                mensaje = msg.mensaje_tickets_solicitud(
+                    sesiones_usuarios[numero_telefono]["datos"]["nombre"]
+                )
 
         elif estado_actual == est.CONFIRMAR_NUM_TICKETS:
             if id_interactivos.ID_NUM_TICKETS_SI in texto:
@@ -61,7 +65,9 @@ def gestion_reserva(texto, numero_telefono, sesiones_usuarios):
                 return
             if id_interactivos.ID_NUM_TICKETS_NO in texto:
                 sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_NUM_TICKETS
-                mensaje = msg.TICKETS_SOLICITUD
+                mensaje = msg.mensaje_tickets_solicitud(
+                    sesiones_usuarios[numero_telefono]["datos"]["nombre"]
+                )
 
     except Exception as e:
         print(Fore.RED + "\nERROR GESTION RESERVA:" + Fore.WHITE + f"\t{e}\n")

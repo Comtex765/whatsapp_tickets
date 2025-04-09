@@ -1,72 +1,49 @@
-# -------------------------
-# Mensajes de bienvenida e inicio
-# -------------------------
-
 BIENVENIDA = (
     "👋 ¡Hola, bienvenido a RIOSOFT369! 🎟️\n"
     "Para comenzar con tu compra de boletos, por favor digita tu número de cédula:"
 )
-# Mensaje de bienvenida inicial al usuario
 
-# -------------------------
-# Mensajes del flujo de registro
-# -------------------------
-
-# Cédula
 CEDULA_OK = "✅ Cédula recibida \nAhora, ingresa tu *Nombre* y *Apellido* (Ejemplo: Juan Pérez):"
-# Confirmación de cédula válida
+
 
 CEDULA_ERROR = "❌ Cédula *no válida* Asegúrate de ingresar 10 dígitos numéricos"
-# Mensaje de error cuando la cédula no cumple con el formato esperado
+
 
 CEDULA_NO_VALIDA = "❌ Cédula *no válida* Revisa tu número de cédula"
-# Mensaje genérico de error de cédula
 
-# Nombre y apellido
+
 NOMBRE_APELLIDO_ERROR = (
     "❌ Por favor, ingresa tu Nombre y Apellido juntos (Ejemplo: Juan Pérez)"
 )
-# Mensaje de error si el usuario no proporciona correctamente nombre y apellido
 
-# Fecha de nacimiento
 FECHA_NACIMIENTO_SOLICITUD = "📅 Por favor, ingresa tu *fecha de nacimiento* en formato *DD/MM/AAAA* (Ejemplo: 15/07/1995)"
-# Solicitud de fecha de nacimiento al usuario
 
 FECHA_NACIMIENTO_ERROR = "❌ Fecha no válida Asegúrate de usar el formato *DD/MM/AAAA*"
-# Mensaje de error por formato de fecha incorrecto
 
-# Correo electrónico
 CORREO_SOLICITUD = "📧 Por favor, ingresa tu correo electrónico"
-# Solicitud de correo electrónico
 
 CORREO_ERROR = "❌ El correo ingresado no es válido Intenta nuevamente"
-# Mensaje de error si el formato del correo no es válido
 
-# Dirección
 DIRECCION_SOLICITUD = (
     "🏠 Ahora, ingresa tu *dirección* (Ejemplo: Guayaquil y Pichincha, Riobamba)"
 )
-# Solicitud de dirección domiciliaria
 
-# -------------------------
-# Mensajes del flujo de reserva
-# -------------------------
-
-
-TICKETS_SOLICITUD = (
-    "🎟️ ¿Cuántos *tickets* te gustaría comprar?\n"
-    "Cada ticket cuesta *$2*\n"
-    "\nPor favor, ingresa el número de tickets que deseas adquirir"
-)
-# Solicitud de cantidad de tickets al usuario
 
 TICKETS_CANTIDAD_ERROR = "❌ Por favor, ingresa un número válido de tickets (mínimo 1)"
-# Mensaje de error si el número de tickets es inválido
+
 
 OPCION_NO_VALIDA = "Por favor selecciona una opción válida"
 
 
 SELECCION_METODO_PAGO = "Ahora selecciona tu método de pago"
+
+
+def mensaje_tickets_solicitud(nombre: str):
+    return (
+        f"🎟️ ¿Cuántos *tickets* te gustaría comprar {nombre}?\n"
+        "Cada ticket cuesta *$2*\n"
+        "\nPor favor, ingresa el número de tickets que deseas adquirir"
+    )
 
 
 def mensaje_confirmacion_tickets(cantidad: int, total: float):
@@ -85,11 +62,6 @@ def mensaje_confirmacion_tickets(cantidad: int, total: float):
         f"💵 Total a pagar: ${total}\n"
         f"\n¿Continuar al pago?"
     )
-
-
-# -------------------------
-# Mensajes finales y confirmaciones
-# -------------------------
 
 
 def mensaje_registro_completado(user):
@@ -130,9 +102,12 @@ def edicion_datos_registro(datos):
     )
 
 
-# -------------------------
-# Mensajes generales
-# -------------------------
-
 ERROR_GENERICO = "⚠️ Ocurrió un error Por favor, intenta nuevamente"
-# Mensaje de error genérico para cualquier fallo inesperado
+
+INFORMACION_BANCARIA_PICHINCHA = (
+    "🏦 *Información para el pago:*\n\n"
+    "🏛️ Banco: *Banco Pichincha*\n"
+    "💳 Cuenta de ahorros: *# 3339836104*\n"
+    "👤 Nombre: *Coba Toledo Daniel Jovany*\n\n"
+    "Por favor, realiza el depósito y envíanos una foto del comprobante para confirmar tu compra. 📸✅"
+)

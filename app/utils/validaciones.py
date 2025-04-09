@@ -60,4 +60,4 @@ def validar_correo(correo: str) -> bool:
 
 
 def validar_usuario_existe(numero_telefono: str):
-    return db.existe_usuario_por_numero_telefono(numero_telefono)
+    return db.obtener_usuario_por_numero_telefono(numero_telefono)
