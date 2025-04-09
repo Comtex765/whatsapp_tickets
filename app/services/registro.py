@@ -18,30 +18,10 @@ def gestion_registro(texto, numero_telefono, sesiones_usuarios):
     estado_actual = sesiones_usuarios[numero_telefono]["estado"]
 
     try:
-        # Estado inicial del flujo
+        # Estado de inicio de registro, esperando nombre y apellido
         if estado_actual == est.INICIO_REGISTRO:
-            mensaje = msg.BIENVENIDA
-
-            sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_CEDULA
-
-        # Estado donde se espera que el usuario envíe su cédula
-        elif estado_actual == est.ESPERANDO_CEDULA:
-            if texto.isdigit() and len(texto) == 10:
-                if check.validar_cedula(
-                    texto
-                ):  # Validación formal de cédula ecuatoriana
-                    sesiones_usuarios[numero_telefono]["datos"]["cedula"] = texto
-                    sesiones_usuarios[numero_telefono][
-                        "estado"
-                    ] = est.ESPERANDO_NOMBRE_APELLIDO
-
-                    mensaje = msg.CEDULA_OK
-                else:
-                    mensaje = msg.CEDULA_NO_VALIDA
-            else:
-                mensaje = msg.CEDULA_ERROR
-
-        # Estado donde se espera el nombre y apellido
+            mensaje = msg.NOMBRE_APELLIDO_SOLICITUD
+            sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_NOMBRE_APELLIDO
         elif estado_actual == est.ESPERANDO_NOMBRE_APELLIDO:
             nombres_apellidos = texto.split(" ", 1)
 

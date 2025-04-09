@@ -44,3 +44,45 @@ def mensaje_botones_interactivos(
             },
         },
     }
+
+
+def mensaje_lista_inicio(numero: str) -> dict:
+    from utils.constantes import id_interactivos
+
+    return {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": numero,
+        "type": "interactive",
+        "interactive": {
+            "type": "list",
+            "header": {"type": "text", "text": "🎉 Bienvenido a RIOSOFT369"},
+            "body": {"text": "Selecciona una opción del menú para continuar"},
+            "footer": {"text": "Tu experiencia comienza aquí 🚀"},
+            "action": {
+                "button": "Ver opciones",
+                "sections": [
+                    {
+                        "title": "📋 Opciones disponibles",
+                        "rows": [
+                            {
+                                "id": id_interactivos.ID_LISTA_REGISTRO,
+                                "title": "Registrarme",
+                                "description": "Comienza por primera vez registrándote",
+                            },
+                            {
+                                "id": id_interactivos.ID_LISTA_COMPRA_TICKETS,
+                                "title": "Comprar Tickets",
+                                "description": "Adquiere tus tickets para usar los simuladores",
+                            },
+                            {
+                                "id": id_interactivos.ID_LISTA_MODIFICAR_DATOS,
+                                "title": "Actualizar Información",
+                                "description": "Modifica tus datos personales registrados",
+                            },
+                        ],
+                    }
+                ],
+            },
+        },
+    }

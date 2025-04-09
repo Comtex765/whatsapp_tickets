@@ -15,7 +15,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def crear_usuario(data: dict):
     session = SessionLocal()
     try:
-        if existe_usuario_por_numero_telefono(data["numero_telefono"], session):
+        if existe_usuario_por_cedula(data["cedula"], session):
             print("⚠️ Ya existe un usuario con ese número de teléfono.")
             return None
 
@@ -31,16 +31,14 @@ def crear_usuario(data: dict):
 
 
 # Buscar usuario por número de teléfono
-def existe_usuario_por_numero_telefono(numero_telefono: str, session=None):
+def existe_usuario_por_cedula(cedula: str, session=None):
     owns_session = False
     if session is None:
         session = SessionLocal()
         owns_session = True
 
     try:
-        usuario = (
-            session.query(Usuario).filter_by(numero_telefono=numero_telefono).first()
-        )
+        usuario = session.query(Usuario).filter_by(cedula=cedula).first()
 
         print(f"el usuario es {usuario}")
 
@@ -50,16 +48,14 @@ def existe_usuario_por_numero_telefono(numero_telefono: str, session=None):
             session.close()
 
 
-def obtener_usuario_por_numero_telefono(numero_telefono: str, session=None):
+def obtener_usuario_por_cedula(cedula: str, session=None):
     owns_session = False
     if session is None:
         session = SessionLocal()
         owns_session = True
 
     try:
-        usuario = (
-            session.query(Usuario).filter_by(numero_telefono=numero_telefono).first()
-        )
+        usuario = session.query(Usuario).filter_by(cedula=cedula).first()
         if usuario:
             return {
                 "id_usuario": usuario.id_usuario,

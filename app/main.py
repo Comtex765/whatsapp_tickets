@@ -9,6 +9,7 @@ from fastapi.responses import PlainTextResponse
 from services.registro import gestion_registro
 from services.reserva import gestion_reserva
 from services.pago import gestion_pago
+from services.inicio_conversacion import gestion_inicio_conversacion
 from utils.session import sesiones_usuarios
 from utils.validaciones import validar_usuario_existe
 
@@ -25,6 +26,7 @@ app = FastAPI(
 
 # Mapeo de fases a funciones
 FASE_HANDLER = {
+    est.FASE_INICIO_MSG: gestion_inicio_conversacion,
     est.FASE_REGISTRO: gestion_registro,
     est.FASE_RESERVA: gestion_reserva,
     est.FASE_PAGO: gestion_pago,
@@ -81,28 +83,15 @@ async def recibir_mensajes(request: Request):
 
             # Si no existe una sesión activa para el número, se crea
             if numero_telefono not in sesiones_usuarios:
-
-                # Consultamos si el usuario ya existe en la BD
-                user_db = validar_usuario_existe(numero_telefono)
-
-                # Determinamos fase y estado según existencia
-                usuario_existe = bool(user_db)
-                fase_inicial = est.FASE_RESERVA if usuario_existe else est.FASE_REGISTRO
-                estado_inicial = (
-                    est.INICIO_RESERVA if usuario_existe else est.INICIO_REGISTRO
-                )
-
                 # Guardamos la sesión del usuario
                 sesiones_usuarios[numero_telefono] = {
-                    "existe": usuario_existe,
-                    "fase": fase_inicial,
-                    "estado": estado_inicial,
-                    "datos": user_db or {},
+                    "fase": est.FASE_INICIO_MSG,
+                    "estado": est.INICIO_PRINCIPAL,
+                    "datos": {},
                 }
 
             # Extraemos la fase y usuario desde la sesión
             fase_actual = sesiones_usuarios[numero_telefono]["fase"]
-            user_db = sesiones_usuarios[numero_telefono]["existe"]
 
             # Ejecutar función correspondiente a la fase
             handler = FASE_HANDLER.get(fase_actual)

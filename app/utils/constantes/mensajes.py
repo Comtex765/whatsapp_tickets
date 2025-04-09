@@ -1,15 +1,18 @@
 BIENVENIDA = (
-    "👋 ¡Hola, bienvenido a RIOSOFT369! 🎟️\n"
-    "Para comenzar con tu compra de boletos, por favor digita tu número de cédula:"
+    "👋 ¡Hola! 🎟️\n"
+    "Para comenzar por favor digita tu número de cédula\n"
+    "\n📌 *Tip:* El número de cédula no debe contener espacios ni caracteres que no sean números -> Ej: 1234567890"
 )
 
-CEDULA_OK = "✅ Cédula recibida \nAhora, ingresa tu *Nombre* y *Apellido* (Ejemplo: Juan Pérez):"
+CEDULA_OK = "✅ Cédula recibida\n"
+
+NOMBRE_APELLIDO_SOLICITUD = "Ingresa tu *Nombre* y *Apellido* (Ejemplo: Juan Pérez):"
 
 
-CEDULA_ERROR = "❌ Cédula *no válida* Asegúrate de ingresar 10 dígitos numéricos"
+CEDULA_ERROR = "❌ Cédula *no válida*\nAsegúrate de ingresar 10 dígitos numéricos"
 
 
-CEDULA_NO_VALIDA = "❌ Cédula *no válida* Revisa tu número de cédula"
+CEDULA_NO_VALIDA = "❌ Cédula *no válida*\nRevisa tu número de cédula"
 
 
 NOMBRE_APELLIDO_ERROR = (
@@ -18,16 +21,15 @@ NOMBRE_APELLIDO_ERROR = (
 
 FECHA_NACIMIENTO_SOLICITUD = "📅 Por favor, ingresa tu *fecha de nacimiento* en formato *DD/MM/AAAA* (Ejemplo: 15/07/1995)"
 
-FECHA_NACIMIENTO_ERROR = "❌ Fecha no válida Asegúrate de usar el formato *DD/MM/AAAA*"
+FECHA_NACIMIENTO_ERROR = "❌ Fecha no válida\nAsegúrate de usar el formato *DD/MM/AAAA*"
 
 CORREO_SOLICITUD = "📧 Por favor, ingresa tu correo electrónico"
 
-CORREO_ERROR = "❌ El correo ingresado no es válido Intenta nuevamente"
+CORREO_ERROR = "❌ El correo ingresado no es válido\nIntenta nuevamente"
 
 DIRECCION_SOLICITUD = (
     "🏠 Ahora, ingresa tu *dirección* (Ejemplo: Guayaquil y Pichincha, Riobamba)"
 )
-
 
 TICKETS_CANTIDAD_ERROR = "❌ Por favor, ingresa un número válido de tickets (mínimo 1)"
 

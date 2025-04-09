@@ -63,7 +63,7 @@ def gestion_reserva(texto, numero_telefono, sesiones_usuarios):
 
                 gestion_pago("", numero_telefono, sesiones_usuarios)
                 return
-            if id_interactivos.ID_NUM_TICKETS_NO in texto:
+            elif id_interactivos.ID_NUM_TICKETS_NO in texto:
                 sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_NUM_TICKETS
                 mensaje = msg.mensaje_tickets_solicitud(
                     sesiones_usuarios[numero_telefono]["datos"]["nombre"]
