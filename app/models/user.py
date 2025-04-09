@@ -1,22 +1,18 @@
-from datetime import datetime
+from sqlalchemy import Column, Date, Integer, String, Text
+from sqlalchemy.ext.declarative import declarative_base
 
-import pytz
-from pydantic import BaseModel, Field
-
-
-# Obtener la hora actual en UTC-5
-def obtener_hora_registro():
-    return datetime.now(pytz.timezone("America/Guayaquil"))
+# Declarar base
+Base = declarative_base()
 
 
-class UsuarioRegistro(BaseModel):
-    cedula: str
-    nombre: str
-    apellido: str
-    fecha_nacimiento: str
-    direccion: str
-    hora_registro: datetime = Field(default_factory=obtener_hora_registro)
+class Usuario(Base):
+    __tablename__ = "usuario"
 
-    class Config:
-        # Asegura que las fechas se serialicen correctamente en formato ISO
-        json_encoders = {datetime: lambda v: v.isoformat()}
+    id_usuario = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    cedula = Column(String(10))
+    nombre = Column(String(50))
+    apellido = Column(String(50))
+    correo = Column(String(100), unique=True)
+    numero_telefono = Column(String(15), unique=True)
+    fecha_nacimiento = Column(Date)
+    direccion = Column(Text)

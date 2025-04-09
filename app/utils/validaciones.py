@@ -1,6 +1,8 @@
 import re
 from datetime import datetime
 
+import database as db
+
 
 def validar_cedula(cedula: str) -> bool:
     """Valida si una cédula ecuatoriana es correcta."""
@@ -55,3 +57,7 @@ def validar_fecha_nacimiento(fecha: str) -> bool:
 def validar_correo(correo: str) -> bool:
     patron = r"^[\w\.-]+@[\w\.-]+\.\w+$"
     return re.match(patron, correo) is not None
+
+
+def validar_usuario_existe(numero_telefono: str):
+    return db.existe_usuario_por_numero_telefono(numero_telefono)

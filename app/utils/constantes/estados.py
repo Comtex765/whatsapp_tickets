@@ -2,8 +2,10 @@
 # Estados del flujo de registro
 # -------------------------
 
-INICIO = "inicio"
-# Estado inicial del usuario, antes de iniciar el proceso de registro
+FASE_REGISTRO = "registro"
+INICIO_REGISTRO = "inicio_registro"
+# Estado inicial del usuario asumido
+
 
 ESPERANDO_CEDULA = "esperando_cedula"
 # Esperando que el usuario proporcione su número de cédula
@@ -27,8 +29,8 @@ FIN_REGISTRO = "fin_registro"
 # Estados del flujo de reserva de tickets
 # -------------------------
 
-RESERVA = "reserva"
-# Inicio del flujo de reserva de tickets
+FASE_RESERVA = "reserva"
+INICIO_RESERVA = "inicio_reserva"
 
 ESPERANDO_NUM_TICKETS = "esperando_num_tickets"
 # Esperando que el usuario indique la cantidad de tickets que desea reservar
@@ -45,8 +47,8 @@ CONFIRMAR_PAGO = "confirmar_pago"
 # Estados del flujo de pago
 # -------------------------
 
-PAGO = "pago"
-# Inicio del proceso de pago
+FASE_PAGO = "pago"
+INICIO_PAGO = "inicio_pago"
 
 ESPERANDO_PAGO = "esperando_pago"
 # Esperando que el usuario realice el pago correspondiente
