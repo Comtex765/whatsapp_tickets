@@ -6,13 +6,11 @@ import uvicorn
 from colorama import Fore, init
 from fastapi import FastAPI, Request
 from fastapi.responses import PlainTextResponse
+from services.inicio_conversacion import gestion_inicio_conversacion
+from services.pago import gestion_pago
 from services.registro import gestion_registro
 from services.reserva import gestion_reserva
-from services.pago import gestion_pago
-from services.inicio_conversacion import gestion_inicio_conversacion
 from utils.session import sesiones_usuarios
-from utils.validaciones import validar_usuario_existe
-
 
 init(autoreset=True)  # Esto hace que después de cada print, se reinicie el color
 

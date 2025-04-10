@@ -1,10 +1,10 @@
-def mensaje_texto(numero: str, body: str) -> dict:
+def mensaje_texto(numero: str, body: str, url: bool = False) -> dict:
     return {
         "messaging_product": "whatsapp",
         "recipient_type": "individual",
         "to": numero,
         "type": "text",
-        "text": {"body": body},
+        "text": {"preview_url": url, "body": body},
     }
 
 

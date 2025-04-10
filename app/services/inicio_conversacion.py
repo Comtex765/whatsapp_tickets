@@ -1,11 +1,12 @@
 import utils.whatsapp.responses as wpp_resp
 from colorama import Fore, init
+from services.registro import gestion_registro
+from services.reserva import gestion_reserva
+from utils import validaciones as check
 from utils.constantes import estados as est
 from utils.constantes import id_interactivos
 from utils.constantes import mensajes as msg
 from utils.whatsapp.sender import enviar_mensaje_whatsapp
-from services.registro import gestion_registro
-from utils import validaciones as check
 
 init(autoreset=True)  # Esto hace que después de cada print, se reinicie el color
 
@@ -55,6 +56,13 @@ def gestion_inicio_conversacion(texto, numero_telefono, sesiones_usuarios):
                 sesiones_usuarios[numero_telefono]["estado"] = est.INICIO_REGISTRO
 
                 gestion_registro("", numero_telefono, sesiones_usuarios)
+                return
+            elif id_interactivos.ID_LISTA_COMPRA_TICKETS in texto:
+                # Confirmación y cambio de fase
+                sesiones_usuarios[numero_telefono]["fase"] = est.FASE_RESERVA
+                sesiones_usuarios[numero_telefono]["estado"] = est.INICIO_RESERVA
+
+                gestion_reserva("", numero_telefono, sesiones_usuarios)
                 return
 
     except Exception as e:

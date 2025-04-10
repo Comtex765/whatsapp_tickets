@@ -36,7 +36,7 @@ def validar_cedula(cedula: str) -> bool:
 
 
 def validar_fecha_nacimiento(fecha: str) -> bool:
-    """Valida que la fecha tenga formato DD/MM/AAAA y que la persona tenga al menos 18 años."""
+    """Valida que la fecha tenga formato DD/MM/AAAA y que la persona tenga al menos15 años."""
     try:
         if not re.match(r"^\d{2}/\d{2}/\d{4}$", fecha):
             return False
@@ -49,7 +49,7 @@ def validar_fecha_nacimiento(fecha: str) -> bool:
             - ((hoy.month, hoy.day) < (fecha_nac.month, fecha_nac.day))
         )
 
-        return edad >= 18
+        return edad >= 15
     except ValueError:
         return False
 
@@ -59,5 +59,5 @@ def validar_correo(correo: str) -> bool:
     return re.match(patron, correo) is not None
 
 
-def validar_usuario_existe(numero_telefono: str):
-    return db.obtener_usuario_por_numero_telefono(numero_telefono)
+def validar_usuario_existe(cedula: str):
+    return db.obtener_usuario_por_cedula(cedula)

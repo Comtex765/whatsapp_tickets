@@ -1,10 +1,12 @@
 import utils.whatsapp.responses as wpp_resp
 from colorama import Fore, init
+from services.pago import gestion_pago
+
 from utils.constantes import estados as est
 from utils.constantes import id_interactivos
 from utils.constantes import mensajes as msg
+from utils.validaciones import validar_usuario_existe
 from utils.whatsapp.sender import enviar_mensaje_whatsapp
-from services.pago import gestion_pago
 
 init(autoreset=True)  # Esto hace que después de cada print, se reinicie el color
 
@@ -18,10 +20,33 @@ def gestion_reserva(texto, numero_telefono, sesiones_usuarios):
 
     try:
         if estado_actual == est.INICIO_RESERVA:
-            sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_NUM_TICKETS
-            mensaje = msg.mensaje_tickets_solicitud(
-                sesiones_usuarios[numero_telefono]["datos"]["nombre"]
-            )
+            cedula = sesiones_usuarios[numero_telefono]["datos"]["cedula"]
+            user_db = validar_usuario_existe(cedula)
+
+            if user_db:
+                sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_NUM_TICKETS
+                sesiones_usuarios[numero_telefono]["datos"] = user_db
+
+                mensaje = msg.mensaje_tickets_solicitud(
+                    sesiones_usuarios[numero_telefono]["datos"]["nombre"]
+                )
+                response_data = wpp_resp.mensaje_texto(numero_telefono, mensaje)
+
+                enviar_mensaje_whatsapp(response_data)
+                return
+            else:
+                from services.registro import gestion_registro
+
+                # Confirmación y cambio de fase
+                sesiones_usuarios[numero_telefono]["fase"] = est.FASE_REGISTRO
+                sesiones_usuarios[numero_telefono]["estado"] = est.INICIO_REGISTRO
+
+                mensaje = msg.USUARIO_NO_EXISTE
+                response_data = wpp_resp.mensaje_texto(numero_telefono, mensaje)
+
+                enviar_mensaje_whatsapp(response_data)
+                gestion_registro("", numero_telefono, sesiones_usuarios)
+                return
 
         elif estado_actual == est.ESPERANDO_NUM_TICKETS:
             if texto.isdigit() and int(texto) > 0:

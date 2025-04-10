@@ -1,10 +1,11 @@
 import database as db
 import utils.whatsapp.responses as wpp_resp
 from colorama import Fore, init
-from services.reserva import gestion_reserva
 from utils import validaciones as check
+from services.reserva import gestion_reserva
 from utils.constantes import estados as est
 from utils.constantes import mensajes as msg
+from utils.validaciones import validar_usuario_existe
 from utils.whatsapp.sender import enviar_mensaje_whatsapp
 
 init(autoreset=True)  # Esto hace que después de cada print, se reinicie el color
@@ -20,8 +21,30 @@ def gestion_registro(texto, numero_telefono, sesiones_usuarios):
     try:
         # Estado de inicio de registro, esperando nombre y apellido
         if estado_actual == est.INICIO_REGISTRO:
-            mensaje = msg.NOMBRE_APELLIDO_SOLICITUD
-            sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_NOMBRE_APELLIDO
+            cedula = sesiones_usuarios[numero_telefono]["datos"]["cedula"]
+            user_db = validar_usuario_existe(cedula)
+
+            if user_db:
+
+                # Confirmación y cambio de fase
+                sesiones_usuarios[numero_telefono]["fase"] = est.FASE_RESERVA
+                sesiones_usuarios[numero_telefono]["estado"] = est.INICIO_RESERVA
+
+                mensaje = msg.usuario_existe(user_db["nombre"])
+                sesiones_usuarios[numero_telefono]["datos"] = user_db
+
+                response_data = wpp_resp.mensaje_texto(numero_telefono, mensaje)
+
+                enviar_mensaje_whatsapp(response_data)
+                gestion_reserva("", numero_telefono, sesiones_usuarios)
+
+                return
+            else:
+                mensaje = msg.NOMBRE_APELLIDO_SOLICITUD
+                sesiones_usuarios[numero_telefono][
+                    "estado"
+                ] = est.ESPERANDO_NOMBRE_APELLIDO
+
         elif estado_actual == est.ESPERANDO_NOMBRE_APELLIDO:
             nombres_apellidos = texto.split(" ", 1)
 

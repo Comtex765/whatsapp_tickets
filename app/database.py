@@ -1,7 +1,7 @@
 import config
+from colorama import Fore
 from models.user import Usuario
 from sqlalchemy import create_engine
-from colorama import Fore
 from sqlalchemy.orm import sessionmaker
 
 DATABASE_URL = config.SQLALCHEMY_DATABASE_URI
@@ -58,12 +58,10 @@ def obtener_usuario_por_cedula(cedula: str, session=None):
         usuario = session.query(Usuario).filter_by(cedula=cedula).first()
         if usuario:
             return {
-                "id_usuario": usuario.id_usuario,
                 "cedula": usuario.cedula,
                 "nombre": usuario.nombre,
                 "apellido": usuario.apellido,
                 "correo": usuario.correo,
-                "numero_telefono": usuario.numero_telefono,
                 "fecha_nacimiento": (
                     usuario.fecha_nacimiento.isoformat()
                     if usuario.fecha_nacimiento

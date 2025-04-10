@@ -34,10 +34,16 @@ def gestion_pago(texto, numero_telefono, sesiones_usuarios):
 
         elif estado_actual == est.ESPERANDO_METODO_PAGO:
             if id_interactivos.ID_PAGO_TRANSFERENCIA in texto:
+                sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_PAGO
                 mensaje = msg.INFORMACION_BANCARIA_PICHINCHA
             elif id_interactivos.ID_PAGO_TARJETA in texto:
-                print("pago con tarjeta")
-                mensaje = "Pago con tarjeta en proceso"
+                sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_PAGO
+                mensaje = msg.INFORMACION_LINK_PAGO
+
+                response_data = wpp_resp.mensaje_texto(numero_telefono, mensaje, True)
+                enviar_mensaje_whatsapp(response_data)
+
+                return
 
     except Exception as e:
         print(Fore.RED + "\nERROR GESTION RESERVA:" + Fore.WHITE + f"\t{e}\n")
