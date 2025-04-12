@@ -4,6 +4,11 @@ from datetime import datetime
 import database as db
 
 
+def validar_pago(data_img: dict, data_mail: dict) -> bool:
+    # Comprobamos si ambos diccionarios tienen las mismas claves y valores
+    return data_img == data_mail
+
+
 def validar_cedula(cedula: str) -> bool:
     """Valida si una cédula ecuatoriana es correcta."""
     if not cedula.isdigit() or len(cedula) != 10:

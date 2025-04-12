@@ -116,14 +116,19 @@ def usuario_existe(nombre: str):
 
 ERROR_GENERICO = "⚠️ Ocurrió un error Por favor, intenta nuevamente"
 
+PAGO_REALIZADO = "✅ El pago se ha verificado exitosamente"
+NO_EXISTE_COMPROBANTE = (
+    "❌ El comprobante no existe en nuestros registros. Por favor, intenta de nuevo"
+)
+
 INFORMACION_BANCARIA_PICHINCHA = (
     "🏦 *Información para el pago:*\n\n"
     "🏛️ Banco: *Banco Pichincha*\n"
     "💳 Cuenta de ahorros: *# 3339836104*\n"
     "👤 Nombre: *Coba Toledo Daniel Jovany*\n"
     "📧 Correo asociado a la cuenta: *ferchon123443@gmail.com*\n\n"
-    "🔔 Por favor, al registrar el contacto de la cuenta bancaria, incluye también este correo.\n"
-    "Luego de realizar el depósito, envíanos una foto del comprobante en este chat para confirmar tu compra. 📸✅"
+    "🔔 Por favor, al registrar el contacto de la cuenta bancaria, incluye también este correo.\n\n"
+    "Luego de realizar el depósito, envíanos una foto del comprobante. 📸✅"
 )
 
 

@@ -1,8 +1,23 @@
+from pydantic import BaseModel
 from sqlalchemy import Column, Date, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
 
 # Declarar base
 Base = declarative_base()
+
+
+class Transferencia(Base):
+    __tablename__ = "transferencia"
+
+    comprobante = Column(String, primary_key=True, index=True)
+    monto = Column(String)
+    fecha = Column(String)
+
+
+class TransferenciaSch(BaseModel):
+    comprobante: str
+    monto: str
+    fecha: str
 
 
 class Usuario(Base):

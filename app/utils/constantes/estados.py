@@ -17,7 +17,8 @@ ESPERANDO_DIRECCION = "esperando_direccion"
 
 ESPERANDO_NUM_TICKETS = "esperando_num_tickets"
 ESPERANDO_METODO_PAGO = "esperando_metodo_pago"
-ESPERANDO_PAGO = "esperando_pago"
+ESPERANDO_PAGO_TRANSFERENCIA = "esperando_pago_transferencia"
+ESPERANDO_PAGO_TARJETA = "esperando_pago_tarjeta"
 
 
 CONFIRMAR_NUM_TICKETS = "confirmar_num_tickets"
@@ -25,3 +26,5 @@ CONFIRMAR_PAGO = "confirmar_pago"
 
 
 FIN_REGISTRO = "fin_registro"
+FIN_RESERVA = "fin_reserva"
+FIN_PAGO = "fin_pago"
