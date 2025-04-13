@@ -68,17 +68,17 @@ def mensaje_lista_inicio(numero: str) -> dict:
                             {
                                 "id": id_interactivos.ID_LISTA_REGISTRO,
                                 "title": "Registrarme",
-                                "description": "Comienza por primera vez registrándote",
+                                "description": "Crea una cuenta y empieza a disfrutar de nuestros servicios.",
                             },
                             {
                                 "id": id_interactivos.ID_LISTA_COMPRA_TICKETS,
                                 "title": "Comprar Tickets",
-                                "description": "Adquiere tus tickets para usar los simuladores",
+                                "description": "Adquiere tickets para usar nuestros simuladores.",
                             },
                             {
                                 "id": id_interactivos.ID_LISTA_MODIFICAR_DATOS,
                                 "title": "Actualizar Información",
-                                "description": "Modifica tus datos personales registrados",
+                                "description": "Actualiza tus datos personales cuando lo necesites.",
                             },
                         ],
                     }

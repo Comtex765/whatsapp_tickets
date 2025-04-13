@@ -33,7 +33,7 @@ class InicioReserva:
             response = wpp_resp.mensaje_texto(numero_telefono, mensaje)
             enviar_mensaje_whatsapp(response)
             try:
-                from factory.handler_factory import HandlerFactory
+                from core.factory.handler_factory import HandlerFactory
 
                 handler = HandlerFactory.get_handler(est.FASE_REGISTRO)
                 handler.handle("", numero_telefono, sesiones_usuarios)
@@ -83,14 +83,6 @@ class ConfirmarNumTickets:
             # Confirmación y cambio de fase
             sesiones_usuarios[numero_telefono]["fase"] = est.FASE_PAGO
             sesiones_usuarios[numero_telefono]["estado"] = est.INICIO_PAGO
-
-            try:
-                from factory.handler_factory import HandlerFactory
-
-                handler = HandlerFactory.get_handler(est.FASE_PAGO)
-                handler.handle("", numero_telefono, sesiones_usuarios)
-            except ValueError as e:
-                print(Fore.RED + f"\nERROR FACTORY:\t " + Fore.WHITE + f"{e}\n")
 
         elif id_interactivos.ID_NUM_TICKETS_NO in texto:
             sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_NUM_TICKETS
