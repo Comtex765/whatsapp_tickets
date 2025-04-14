@@ -45,13 +45,17 @@ async def recibir_mensajes(request: Request):
         mensaje_recibido = objeto_mensaje[0]
         numero_telefono = mensaje_recibido["from"]
 
-        print(Fore.BLUE + "\nMENSAJE RECIBIDO")
-        print(Fore.GREEN + "📱 Número  :\t" + Fore.WHITE + f"+{numero_telefono}")
-        print(Fore.GREEN + "💬 Mensaje :\t" + Fore.WHITE + f"{mensaje_recibido}\n")
+        
 
         # Procesar el mensaje recibido
         try:
             texto_mensaje = procesar_mensaje(mensaje_recibido)
+
+            print(Fore.BLUE + "\nMENSAJE RECIBIDO")
+            print(Fore.GREEN + "📱 Número  :\t" + Fore.WHITE + f"+{numero_telefono}")
+            print(Fore.GREEN + "💬 Mensaje :\t" + Fore.WHITE + f"{texto_mensaje}\n")
+
+
         except ValueError as e:
             print(Fore.RED + f"ERROR al procesar el mensaje: {e}")
             return {"message": "ERROR en el mensaje", "status": 400}
