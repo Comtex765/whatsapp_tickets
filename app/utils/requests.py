@@ -8,7 +8,7 @@ from colorama import Fore, init
 init(autoreset=True)  # Esto hace que después de cada print, se reinicie el color
 
 
-def obtener_data_img(media_id, token, numero_telefono):
+def obtener_data_img(media_id, token, numero_telefono, monto):
     """
     Función principal que orquesta la descarga y almacenamiento de media.
     """
@@ -21,9 +21,12 @@ def obtener_data_img(media_id, token, numero_telefono):
         try:
             with open(url, "rb") as imagen:
                 files = {
-                    "file": (url, imagen, "image/jpeg")
-                }  # puedes ajustar el tipo MIME si es necesario
-                response = requests.post(url_ocr, files=files)
+                    "file": (url, imagen, "image/jpeg"),
+                }
+                data = {
+                    "valor_monto": (monto),
+                }
+                response = requests.post(url_ocr, files=files, data=data)
 
             if response.status_code == 200:
                 return response.json()

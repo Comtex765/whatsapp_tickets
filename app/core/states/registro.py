@@ -137,14 +137,12 @@ class EsperandoDireccion:
         if texto:  # Verificar que no esté vacío
             sesiones_usuarios[numero_telefono]["datos"]["direccion"] = texto
             sesiones_usuarios[numero_telefono]["estado"] = est.FIN_REGISTRO
-
-            mensaje = msg.REGISTRO_COMPLETO  # Mensaje de confirmación de registro
         else:
             mensaje = "Por favor, ingresa una dirección válida."
 
-        # Enviar mensaje de respuesta
-        response = wpp_resp.mensaje_texto(numero_telefono, mensaje)
-        enviar_mensaje_whatsapp(response)
+            # Enviar mensaje de respuesta
+            response = wpp_resp.mensaje_texto(numero_telefono, mensaje)
+            enviar_mensaje_whatsapp(response)
 
 
 class FinRegistro:

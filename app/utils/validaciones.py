@@ -4,9 +4,18 @@ from datetime import datetime
 import database as db
 
 
-def validar_pago(data_img: dict, data_mail: dict) -> bool:
-    # Comprobamos si ambos diccionarios tienen las mismas claves y valores
-    return data_img == data_mail
+def validar_pago(data_img: dict, fecha_esperada: bool = True) -> bool:
+    monto_valido = data_img.get("monto") != "-1"
+
+    if fecha_esperada:
+        # Valida que la fecha coincida con la de hoy
+        fecha_actual = datetime.now().strftime("%d/%m/%Y")
+        fecha_valida = data_img.get("fecha") == fecha_actual
+    else:
+        # Solo verifica que haya una fecha válida
+        fecha_valida = True
+
+    return monto_valido and fecha_valida
 
 
 def validar_cedula(cedula: str) -> bool:

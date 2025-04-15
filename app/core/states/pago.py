@@ -93,12 +93,17 @@ class EsperandoPagoTransferencia:
             # Verificar si la transferencia con ese comprobante existe
             from database import existe_transferencia_por_comprobante
             from utils.requests import obtener_data_img
+            from utils.validaciones import validar_pago
 
             # Obtener el token de WhatsApp Cloud
             WHATSAPP_CLOUD_TOKEN = getenv("WHATSAPP_CLOUD_TOKEN")
 
             # Obtener los datos de la imagen (comprobante de transferencia)
-            datos_img = obtener_data_img(texto, WHATSAPP_CLOUD_TOKEN, numero_telefono)
+            monto = sesiones_usuarios[numero_telefono]["datos"]["total_pago"]
+            datos_img = obtener_data_img(
+                texto, WHATSAPP_CLOUD_TOKEN, numero_telefono, monto
+            )
+
             comprobante = datos_img.get("comprobante", None)
 
             if comprobante:
@@ -115,7 +120,7 @@ class EsperandoPagoTransferencia:
                 )
 
             # Verificar si la transferencia con ese comprobante existe
-            if existe_transferencia_por_comprobante(comprobante):
+            if validar_pago(data_img=datos_img, fecha_esperada=False):
                 mensaje = msg.PAGO_REALIZADO
                 print(
                     Fore.GREEN

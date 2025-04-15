@@ -11,7 +11,6 @@ DB_PORT = getenv("DB_PORT")
 DB_NAME = getenv("DB_NAME")
 
 
-print(f"el host es {DB_HOST}")
 SQLALCHEMY_DATABASE_URI = (
     f"postgresql://{DB_USER}:{DB_PASSWORD}" f"@[{DB_HOST}]:{DB_PORT}/{DB_NAME}"
 )

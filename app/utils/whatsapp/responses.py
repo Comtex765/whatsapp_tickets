@@ -48,6 +48,7 @@ def mensaje_botones_interactivos(
 
 def mensaje_lista_inicio(numero: str) -> dict:
     from utils.constantes import id_interactivos
+    from utils.constantes import mensajes as msg
 
     return {
         "messaging_product": "whatsapp",
@@ -67,18 +68,17 @@ def mensaje_lista_inicio(numero: str) -> dict:
                         "rows": [
                             {
                                 "id": id_interactivos.ID_LISTA_REGISTRO,
-                                "title": "Registrarme",
-                                "description": "Crea una cuenta y empieza a disfrutar de nuestros servicios.",
+                                "title": msg.OPCION_PRINCIPAL_REGISTRO["title"],
+                                "description": msg.OPCION_PRINCIPAL_REGISTRO[
+                                    "description"
+                                ],
                             },
                             {
                                 "id": id_interactivos.ID_LISTA_COMPRA_TICKETS,
-                                "title": "Comprar Tickets",
-                                "description": "Adquiere tickets para usar nuestros simuladores.",
-                            },
-                            {
-                                "id": id_interactivos.ID_LISTA_MODIFICAR_DATOS,
-                                "title": "Actualizar Información",
-                                "description": "Actualiza tus datos personales cuando lo necesites.",
+                                "title": msg.OPCION_PRINCIPAL_COMPRA["title"],
+                                "description": msg.OPCION_PRINCIPAL_REGISTRO[
+                                    "description"
+                                ],
                             },
                         ],
                     }

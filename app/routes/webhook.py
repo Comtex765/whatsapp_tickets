@@ -3,7 +3,7 @@ from os import getenv
 import utils.constantes.estados as est
 from colorama import Fore, init
 from core.factory.handler_factory import HandlerFactory
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import PlainTextResponse
 from utils.session import sesiones_usuarios
 
@@ -45,8 +45,6 @@ async def recibir_mensajes(request: Request):
         mensaje_recibido = objeto_mensaje[0]
         numero_telefono = mensaje_recibido["from"]
 
-        
-
         # Procesar el mensaje recibido
         try:
             texto_mensaje = procesar_mensaje(mensaje_recibido)
@@ -54,7 +52,6 @@ async def recibir_mensajes(request: Request):
             print(Fore.BLUE + "\nMENSAJE RECIBIDO")
             print(Fore.GREEN + "📱 Número  :\t" + Fore.WHITE + f"+{numero_telefono}")
             print(Fore.GREEN + "💬 Mensaje :\t" + Fore.WHITE + f"{texto_mensaje}\n")
-
 
         except ValueError as e:
             print(Fore.RED + f"ERROR al procesar el mensaje: {e}")
