@@ -19,7 +19,7 @@ class ReservaHandler:
                 try:
                     estrategia_class().handle(numero_telefono, texto, sesiones_usuarios)
 
-                    # 🔁 Releer el nuevo estado/fase tras ejecutar el handler
+                    # Releer el nuevo estado/fase tras ejecutar el handler
                     nueva_fase = sesiones_usuarios[numero_telefono]["fase"]
                     nuevo_estado = sesiones_usuarios[numero_telefono]["estado"]
 

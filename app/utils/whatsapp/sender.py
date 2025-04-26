@@ -12,7 +12,33 @@ WHATSAPP_CLOUD_TOKEN = getenv("WHATSAPP_CLOUD_TOKEN")
 NUMBER_ID = getenv("NUMBER_ID")
 
 
-def enviar_mensaje_whatsapp(response_data):
+# Función para procesar los tipos de mensajes
+def procesar_mensaje(mensaje_recibido):
+    try:
+        tipo = mensaje_recibido["type"]
+
+        if tipo == "interactive":
+            tipo_interactivo = mensaje_recibido["interactive"]["type"]
+
+            if tipo_interactivo == "button_reply":
+                return mensaje_recibido["interactive"]["button_reply"]["id"]
+
+            elif tipo_interactivo == "list_reply":
+                return mensaje_recibido["interactive"]["list_reply"]["id"]
+
+        elif tipo == "image":
+            return mensaje_recibido["image"]["id"]
+
+        elif tipo == "text":
+            return mensaje_recibido["text"]["body"]
+
+        else:
+            raise ValueError("Tipo de mensaje no reconocido")
+    except KeyError as e:
+        raise ValueError(f"Error de clave al procesar el mensaje: {e}")
+
+
+def enviar_mensaje_whatsapp (response_data):
     """Función para enviar el mensaje a la API de WhatsApp."""
 
     # Se convierte el diccionario de datos a una cadena JSON para enviar al servidor

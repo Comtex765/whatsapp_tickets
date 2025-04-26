@@ -164,8 +164,7 @@ class EsperandoPagoTarjeta:
             response_data = wpp_resp.mensaje_texto(numero_telefono, mensaje)
             enviar_mensaje_whatsapp(response_data)
 
-            # Aquí podríamos agregar la lógica para validar la confirmación del pago
-            # Si es necesario hacer validaciones adicionales, como revisar el estado de una transacción
+            # Agregar la lógica para validar la confirmación del pago como revisar el estado de una transacción
 
             print(
                 Fore.GREEN

@@ -50,7 +50,7 @@ def validar_cedula(cedula: str) -> bool:
 
 
 def validar_fecha_nacimiento(fecha: str) -> bool:
-    """Valida que la fecha tenga formato DD/MM/AAAA y que la persona tenga al menos15 años."""
+    """Valida que la fecha tenga formato DD/MM/AAAA y que la persona tenga al menos 15 años."""
     try:
         if not re.match(r"^\d{2}/\d{2}/\d{4}$", fecha):
             return False

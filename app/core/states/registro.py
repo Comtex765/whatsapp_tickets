@@ -44,14 +44,13 @@ class InicioRegistro:
                 enviar_mensaje_whatsapp(response)
 
         except Exception as e:
-            # Manejo de excepciones, log de errores y respuesta al usuario
             print(
                 Fore.RED + f"\n[ERROR InicioRegistro.handle] → {e}\n" + Style.RESET_ALL
             )
             mensaje_error = "Ocurrió un error al procesar la solicitud. Por favor, intente nuevamente."
             response_error = wpp_resp.mensaje_texto(numero_telefono, mensaje_error)
             enviar_mensaje_whatsapp(response_error)
-            # Actualizar el estado a un error genérico si es necesario
+            
             sesiones_usuarios[numero_telefono]["estado"] = est.ERROR_REGISTRO
 
 

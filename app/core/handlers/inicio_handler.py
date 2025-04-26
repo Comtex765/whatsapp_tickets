@@ -33,6 +33,7 @@ class InicioHandler:
                     from utils.whatsapp.sender import enviar_mensaje_whatsapp
 
                     response = wpp_resp.mensaje_texto(numero_telefono, ERROR_GENERICO)
+
                     enviar_mensaje_whatsapp(response)
                 except Exception as e:
                     print(

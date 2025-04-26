@@ -1,13 +1,12 @@
 from os import getenv
 
-import utils.constantes.estados as est
 from colorama import Fore, init
 from core.factory.handler_factory import HandlerFactory
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import PlainTextResponse
-from utils.session import sesiones_usuarios
+from utils.session import sesiones_usuarios, crear_o_actualizar_sesion
+from utils.whatsapp.sender import procesar_mensaje
 
-# Obtén el token desde las variables de entorno
 META_HUB_TOKEN = getenv("META_HUB_TOKEN")
 
 router = APIRouter()
@@ -76,39 +75,3 @@ async def recibir_mensajes(request: Request):
         return {"message": "EVENT_RECEIVED"}
     except Exception:
         return {"message": "EVENT_RECEIVED"}
-
-
-# Función para procesar los tipos de mensajes
-def procesar_mensaje(mensaje_recibido):
-    try:
-        tipo = mensaje_recibido["type"]
-
-        if tipo == "interactive":
-            tipo_interactivo = mensaje_recibido["interactive"]["type"]
-
-            if tipo_interactivo == "button_reply":
-                return mensaje_recibido["interactive"]["button_reply"]["id"]
-
-            elif tipo_interactivo == "list_reply":
-                return mensaje_recibido["interactive"]["list_reply"]["id"]
-
-        elif tipo == "image":
-            return mensaje_recibido["image"]["id"]
-
-        elif tipo == "text":
-            return mensaje_recibido["text"]["body"]
-
-        else:
-            raise ValueError("Tipo de mensaje no reconocido")
-    except KeyError as e:
-        raise ValueError(f"Error de clave al procesar el mensaje: {e}")
-
-
-# Función para manejar la sesión del usuario
-def crear_o_actualizar_sesion(numero_telefono):
-    if numero_telefono not in sesiones_usuarios:
-        sesiones_usuarios[numero_telefono] = {
-            "fase": est.FASE_INICIO_MSG,
-            "estado": est.INICIO_PRINCIPAL,
-            "datos": {},
-        }

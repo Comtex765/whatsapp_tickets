@@ -10,8 +10,10 @@ from utils.whatsapp.sender import enviar_mensaje_whatsapp
 class InicioPrincipal:
     def handle(self, numero_telefono, texto, sesiones_usuarios):
         try:
+
             mensaje = msg.BIENVENIDA
             sesiones_usuarios[numero_telefono]["estado"] = est.ESPERANDO_CEDULA
+            
 
             response = wpp_resp.mensaje_texto(numero_telefono, mensaje)
             enviar_mensaje_whatsapp(response)

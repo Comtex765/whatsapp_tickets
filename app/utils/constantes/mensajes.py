@@ -51,6 +51,7 @@ PAGO_REALIZADO = "✅ Pago verificado con éxito."
 
 PAGO_NO_COMPROBADO = "❌ No se pudo validar la información del pago. Intenta nuevamente o contacta con soporte"
 
+INACTIVIDAD_USUARIO = "Tu sesión ha expirado por inactividad"
 
 INFORMACION_BANCARIA_PICHINCHA = (
     "🏦 *Pago Banco Pichincha:*\n\n"

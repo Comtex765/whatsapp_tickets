@@ -15,8 +15,11 @@ class HandlerFactory:
 
     @staticmethod
     def get_handler(fase):
-        handler_class = HandlerFactory.handlers.get(fase)
+        try:
+            handler_class = HandlerFactory.handlers.get(fase)
 
-        if not handler_class:
-            raise ValueError(f"Fase no soportada: {fase}")
-        return handler_class()
+            if not handler_class:
+                raise ValueError(f"Fase no soportada: {fase}")
+            return handler_class()
+        except Exception as e:
+            print(f"\n\n\n---> {e}")

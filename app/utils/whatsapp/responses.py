@@ -76,7 +76,7 @@ def mensaje_lista_inicio(numero: str) -> dict:
                             {
                                 "id": id_interactivos.ID_LISTA_COMPRA_TICKETS,
                                 "title": msg.OPCION_PRINCIPAL_COMPRA["title"],
-                                "description": msg.OPCION_PRINCIPAL_REGISTRO[
+                                "description": msg.OPCION_PRINCIPAL_COMPRA[
                                     "description"
                                 ],
                             },

@@ -5,6 +5,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.transferencia import router as transferencia_router
 from routes.webhook import router as webhook_router
+import asyncio
+from contextlib import asynccontextmanager
+from core.inactividad import verificar_sesiones_inactivas
+
 
 # Esto hace que después de cada print, se reinicie el color
 ENV = getenv("ENV")
@@ -24,12 +28,20 @@ REDOC_URL = None if IS_PROD else "/redoc"
 OPENAPI_URL = None if IS_PROD else "/openapi.json"
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Tarea para verificar sesiones inactivas
+    asyncio.create_task(verificar_sesiones_inactivas())
+    yield
+
+
 app = FastAPI(
     title=API_TITLE,
     version=API_VERSION,
     docs_url=DOCS_URL,
     redoc_url=REDOC_URL,
     openapi_url=OPENAPI_URL,
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -44,6 +56,7 @@ app.add_middleware(
 # Agregar rutas
 app.include_router(webhook_router)
 app.include_router(transferencia_router)
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=PORT, reload=True)
