@@ -66,9 +66,6 @@ WHATSAPP_TICKETS/
 │   ├── database.py                 # Conexión a base de datos (si aplica)
 │   ├── main.py                     # Punto de entrada de la aplicación
 │   └── models.py                   # Modelos de datos (si se usa ORM o esquemas)
-│
-├── images/                         # Recursos gráficos o diagramas (opcional)
-└── venv/                           # Entorno virtual de Python
 ```
 
 
